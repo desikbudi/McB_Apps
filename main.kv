@@ -1,0 +1,258 @@
+<AutocompleteInput>:
+    multiline: False
+    size_hint_y: None
+    height: 40
+    font_size: 16
+    padding: [10, 10]
+    background_normal: ''
+    background_color: [1, 1, 1, 1]
+    foreground_color: [0, 0, 0, 1]
+
+WindowManager:
+    HomeScreen:
+    MasterDataScreen:
+    DashboardScreen:
+
+<HomeScreen>:
+    name: "home"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 100
+        spacing: 10
+        
+        Label:
+            text: "Halaman Utama"
+        Button:
+            text: "Master Data"
+            size_hint_y: None
+            height: 40
+            on_release:
+                app.root.current = "masterdata"
+        Button:
+            text: "Dashboard"
+            size_hint_y: None
+            height: 40
+            on_release:
+                app.root.current = "dashboard"
+            on_press: app.set_active_table(app.load_data_customer, app.load_data_customer)
+
+<MasterDataScreen>:
+    name: "masterdata"
+    BoxLayout:
+        orientation: "vertical"
+
+        TabbedPanel:
+            do_default_tab: False
+            tab_width: 150
+
+            TabbedPanelItem:
+                text: "Customer Entry"
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 100
+                    spacing: 10
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        padding: 200
+                        spacing: 10
+
+                        TextInput:
+                            id: customer_name
+                            hint_text: "Masukkan Nama Customer"
+                            multiline: False
+                            size_hint_y: None
+                            height: 40
+                            font_size: 16
+                            padding: [10, 10]
+                            background_normal: ''
+                            background_color: [1, 1, 1, 1]
+                            foreground_color: [0, 0, 0, 1]
+
+                        Button:
+                            text: "SUBMIT"
+                            size_hint_y: None
+                            height: 40
+                            on_press: app.save_data_customer()
+
+                    Button:
+                        text: "Kembali ke Main"
+                        size_hint_y: None
+                        height: "40"
+                        on_release:
+                            app.root.current = "home"
+
+            TabbedPanelItem:
+                text: "Tabung Entry"
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 100
+                    spacing: 10
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        padding: 200
+                        spacing: 10                    
+                        
+                        TextInput:
+                            id: code_tabung
+                            hint_text: "Masukkan Code"
+                            multiline: False
+                            size_hint_y: None
+                            height: 40
+                            font_size: 16
+                            padding: [10, 10]
+                            background_normal: ''
+                            background_color: [1, 1, 1, 1]
+                            foreground_color: [0, 0, 0, 1]
+
+                        Spinner:
+                            id: type_tabung
+                            text: "Pilih Ukuran Tabung"
+                            values: ["6m3","1m3"]
+                            size_hint_y: None
+                            height: 40
+                            # on_text: app.type_tabung_dipilih(self.text)
+
+                        AutocompleteInput:
+                            id: customer_autocomplete
+                            hint_text: "Customer"
+                            multiline: False
+                            size_hint_y: None
+                            height: 40
+                            font_size: 16
+                            padding: [10, 10]
+                            background_normal: ''
+                            background_color: [1, 1, 1, 1]
+                            foreground_color: [0, 0, 0, 1]
+
+                        Button:
+                            text: "SUBMIT"
+                            size_hint_y: None
+                            height: 40
+                            on_press: app.save_data_tabung()
+
+                    Button:
+                        text: "Kembali ke Main"
+                        size_hint_y: None
+                        height: "40"
+                        on_release:
+                            app.root.current = "home"
+                    
+            TabbedPanelItem:
+                text: "Tab 3"
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: "Konten Tab 3"
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        padding: 100
+                        spacing: 10
+
+                        Button:
+                            text: "Kembali ke Main"
+                            size_hint_y: None
+                            height: "40"
+                            on_release:
+                                app.root.current = "home"
+
+<DashboardScreen>:
+    name: "dashboard"
+    orientation: 'vertical'
+    TabbedPanel:
+        do_default_tab: False
+        tab_width: 150  
+
+        TabbedPanelItem:
+            text: 'Customer'
+            on_press: app.set_active_table(app.load_data_customer, app.load_data_customer)
+            BoxLayout:
+                orientation: 'vertical'
+            
+                ScrollView:
+                    size_hint_y: 2
+                    padding: 0.9
+                    GridLayout:
+                        id: data_customer
+                        cols: 4
+                        padding: [0, 50, 10, 0]
+                        size_hint_y: None
+                        height: self.minimum_height
+                        row_default_height: 30
+                        row_default_force: True
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 100
+                    spacing: 10
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 40
+
+                        Button:
+                            text: '<< Prev'
+                            on_press: app.prev_page()
+
+                        Label:
+                            id: page_label_customer
+                            size_hint_x: 0.3
+
+                        Button:
+                            text: '>> Next'
+                            on_press: app.next_page()
+
+                    Button:
+                        text: "Kembali ke Main"
+                        size_hint_y: None
+                        height: 40
+                        on_release:
+                            app.root.current = "home"
+
+        TabbedPanelItem:
+            text: 'Tabung'
+            on_press: app.set_active_table(app.load_data_tabung, app.load_data_tabung)
+            BoxLayout:
+                orientation: 'vertical'
+            
+                ScrollView:
+                    size_hint_y: 2
+                    padding: 0.9
+                    GridLayout:
+                        id: data_tabung
+                        cols: 4
+                        padding: [0, 50, 10, 0]
+                        size_hint_y: None
+                        height: self.minimum_height
+                        row_default_height: 30
+                        row_default_force: True
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 100
+                    spacing: 10
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 40
+
+                        Button:
+                            text: '<< Prev'
+                            on_press: app.prev_page()
+
+                        Label:
+                            id: page_label_tabung
+                            size_hint_x: 0.3
+
+                        Button:
+                            text: '>> Next'
+                            on_press: app.next_page()
+
+                    Button:
+                        text: "Kembali ke Main"
+                        size_hint_y: None
+                        height: 40
+                        on_release:
+                            app.root.current = "home"
